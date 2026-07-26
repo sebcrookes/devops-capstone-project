@@ -84,8 +84,21 @@ def list_all_accounts():
 # READ AN ACCOUNT
 ######################################################################
 
-# ... place you code here to READ an account ...
+@app.route("/accounts/<account_id>", methods=["GET"])
+def read_account(account_id):
+    """
+    Read Account
+    This endpoint will return a JSONified version of the account associated with the given ID
+    """
+    app.logger.info(f"Request for an account with id {account_id}")
 
+    account = Account.find(account_id)
+
+    if not account:
+        abort(404, f"Account with given ID {account_id} not found")
+
+    return account.serialize(), 200
+    
 
 ######################################################################
 # UPDATE AN EXISTING ACCOUNT
