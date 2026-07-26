@@ -136,3 +136,14 @@ class TestAccountService(TestCase):
         data = response.get_json()
 
         self.assertEqual(len(data), 5)
+
+    def test_read_accounts(self):
+        """Test to ensure that we can read information about accounts"""
+
+        account = self._create_accounts(1)[0]
+
+        response = self.client.post(BASE_URL, json=account.serialize())
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.get_json()
+        self.assertEqual(data["name"], account.name)
