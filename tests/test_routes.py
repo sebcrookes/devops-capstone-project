@@ -142,7 +142,7 @@ class TestAccountService(TestCase):
 
         account = self._create_accounts(1)[0]
 
-        response = self.client.post(BASE_URL, json=account.serialize())
+        response = self.client.get(BASE_URL + f"/{account.id}", content_type="application/json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         data = response.get_json()
