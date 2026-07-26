@@ -18,7 +18,7 @@ DATABASE_URI = os.getenv(
 )
 
 BASE_URL = "/accounts"
-
+HTTPS_ENVIRON = {'wsgi.url_scheme': 'https'}
 
 ######################################################################
 #  T E S T   C A S E S
@@ -188,3 +188,17 @@ class TestAccountService(TestCase):
 
         response = self.client.delete(BASE_URL)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    def test_headers_secure(self):
+        """Test to ensure that requests return security headers"""
+        response = self.client.get("/", environ_overrides=HTTPS_ENVIRON)
+
+        expected_headers = {
+            'X-Frame-Options': 'SAMEORIGIN',
+            'X-Content-Type-Options': 'nosniff',
+            'Content-Security-Policy': 'default-src \'self\'; object-src \'none\'',
+            'Referrer-Policy': 'strict-origin-when-cross-origin'
+        }
+
+        for key, value in expected_headers.items():
+            self.assertEqual(response.headers.get(key), value)
