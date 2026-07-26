@@ -136,3 +136,20 @@ class TestAccountService(TestCase):
         data = response.get_json()
 
         self.assertEqual(len(data), 5)
+
+    def test_read_accounts(self):
+        """Test to ensure that we can read information about accounts"""
+
+        account = self._create_accounts(1)[0]
+
+        response = self.client.get(BASE_URL + f"/{account.id}", content_type="application/json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.get_json()
+        self.assertEqual(data["name"], account.name)
+
+    def test_account_not_found(self):
+        """Test to ensure that the endpoint returns error 404 if the account ID is not real"""
+
+        response = self.client.get(BASE_URL + "/0", content_type="application/json")
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
