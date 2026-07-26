@@ -13,6 +13,8 @@ from . import app  # Import Flask application
 ############################################################
 # Health Endpoint
 ############################################################
+
+
 @app.route("/health")
 def health():
     """Health Status"""
@@ -22,6 +24,8 @@ def health():
 ######################################################################
 # GET INDEX
 ######################################################################
+
+
 @app.route("/")
 def index():
     """Root URL response"""
@@ -38,6 +42,8 @@ def index():
 ######################################################################
 # CREATE A NEW ACCOUNT
 ######################################################################
+
+
 @app.route("/accounts", methods=["POST"])
 def create_accounts():
     """
@@ -57,9 +63,11 @@ def create_accounts():
         jsonify(message), status.HTTP_201_CREATED, {"Location": location_url}
     )
 
+
 ######################################################################
 # LIST ALL ACCOUNTS
 ######################################################################
+
 
 @app.route("/accounts", methods=["GET"])
 def list_all_accounts():
@@ -84,6 +92,7 @@ def list_all_accounts():
 # READ AN ACCOUNT
 ######################################################################
 
+
 @app.route("/accounts/<account_id>", methods=["GET"])
 def read_account(account_id):
     """
@@ -98,11 +107,12 @@ def read_account(account_id):
         abort(404, f"Account with given ID {account_id} not found")
 
     return account.serialize(), 200
-    
+
 
 ######################################################################
 # UPDATE AN EXISTING ACCOUNT
 ######################################################################
+
 
 @app.route("/accounts/<account_id>", methods=["PUT"])
 def update_accounts(account_id):
@@ -116,7 +126,7 @@ def update_accounts(account_id):
 
     if not account:
         abort(404, f"Account with given ID {account_id} not found")
-    
+
     account.deserialize(request.get_json())
     account.update()
 
@@ -126,6 +136,7 @@ def update_accounts(account_id):
 ######################################################################
 # DELETE AN ACCOUNT
 ######################################################################
+
 
 @app.route("/accounts/<account_id>", methods=["DELETE"])
 def delete_accounts(account_id):
