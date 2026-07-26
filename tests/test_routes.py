@@ -21,9 +21,12 @@ DATABASE_URI = os.getenv(
 BASE_URL = "/accounts"
 HTTPS_ENVIRON = {'wsgi.url_scheme': 'https'}
 
+
 ######################################################################
 #  T E S T   C A S E S
 ######################################################################
+
+
 class TestAccountService(TestCase):
     """Account Service Tests"""
 
@@ -170,7 +173,7 @@ class TestAccountService(TestCase):
 
         updated_account = response.get_json()
         self.assertEqual(updated_account["name"], "Fake Name Which Is Unique")
-    
+
     def test_update_accounts_invalid_account(self):
         """Test to ensure that the endpoint returns error 404 if the account to be updated does not exist"""
         test_account = AccountFactory()
